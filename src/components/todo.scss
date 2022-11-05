@@ -1,0 +1,121 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.todoApp {
+    margin: 0 auto;
+    border-radius: 20px;
+    height: 80vh;
+    width: 80%;
+    max-width: 900px;
+    background-color: #300c43;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 0 40px 0 #00000045;
+    transition: all .3s ease;
+    // overflow-y: scroll;
+    .display-todos {
+        display: flex;
+        justify-content: center;
+        gap: 0.6rem;
+        button {
+            color: white;
+            background-color: #008e9f;
+            cursor: pointer;
+            font-weight: 500;
+            padding: 10px 30px;
+            border-radius: 10px;
+            border: none;
+        }
+    }
+    h1 {
+        color: #ffff;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding-left: 0.4rem;
+    }
+    .form {
+        display: grid;
+        grid-template-columns: 70% 20%;
+        margin-bottom: 30px;
+        width: 100%;
+        grid-gap: 1%;
+        .todo-input {
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: .9rem;
+            padding: 0 1rem;
+            border: none;
+            &:focus {
+                outline: none;
+            }
+        }
+        .todo-button {
+            cursor: pointer;
+            font-weight: 500;
+            padding: 14px 30px;
+            background-color: #ad5389;
+            color: #ffff;
+            border-radius: 10px;
+            width: 15rem;
+        }
+    }
+    .todo-ul {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        list-style: none;
+        overflow-y: auto;
+        max-height: 400px;
+        padding: 0 50px;
+        margin-top: 2rem;
+        // .bg-green {
+        //     background-color: green;
+        // }
+        .green-li {
+            background-color: rgb(5, 243, 5);
+            color: white;
+            text-transform: capitalize;
+            padding: 13px 30px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            .icons {
+                display: flex;
+                gap: 1rem;
+                i {
+                    color: rgba(0, 0, 0, 0.785);
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+                .done {
+                    display: none;
+                    transition: 0s;
+                }
+            }
+        }
+        .todo-li {
+            color: white;
+            // text-align: left;
+            background-color: #008e9f;
+            text-transform: capitalize;
+            padding: 13px 30px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            .icons {
+                display: flex;
+                gap: 1rem;
+                i {
+                    color: rgba(0, 0, 0, 0.785);
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+}
