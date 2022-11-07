@@ -68,7 +68,7 @@
         list-style: none;
         overflow-y: auto;
         max-height: 400px;
-        padding: 0 50px;
+        padding: 0 30px;
         margin-top: 1rem;
         .green-li {
             color: white;
@@ -126,5 +126,14 @@
                 }
             }
         }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #filter-buttons {
+        padding: 5px 20px;
+    }
+    .todo-ul{
+        padding: 0 0 !important;
     }
 }

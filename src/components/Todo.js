@@ -103,9 +103,9 @@ const Todo = () => {
       </div> 
       {/* Filter todos */}
       <div className='display-todos'>
-        <button onClick={()=>setSort('all')}>All</button>
-        <button onClick={()=>setSort('completed')}>Completed</button>
-        <button onClick={()=>setSort('active')}>Active</button>
+        <button id='filter-buttons' onClick={()=>setSort('all')}>All</button>
+        <button id='filter-buttons' onClick={()=>setSort('completed')}>Completed</button>
+        <button id='filter-buttons' onClick={()=>setSort('active')}>Active</button>
       </div>
       <div>
         <ul className='todo-ul'>
