@@ -1,43 +1,61 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { add } from '../features/todoSlice'
+import AccordionC from './AccordionC'
 import './todo.scss'
-import { add, remove, done, addTime} from '../features/todoSlice'
-import { BsTrash } from 'react-icons/bs'
-import { IoMdDoneAll } from 'react-icons/io'
+// MODAL
+import Modal from '@mui/material/Modal';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Fade from '@mui/material/Fade';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { Typography } from '@mui/material'
 
 const Todo = () => {
   const [ title, setTitle ] = useState("");
+  const [ description, setDescription] = useState();
   const [ sort, setSort ] = useState("all");
+  const [open, setOpen] = useState(false);
   const todos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
-  useEffect(() => {
-    todos.map((todo)=> {
-      let time = new Date(todo.date);
-      let currentTime = new Date();
-      if(time < currentTime){
-        console.log("kicik");
-      }
-    }, [todos])
-  })
-  const onSubmit = (e) => {
-    e.preventDefault()
-  }
-
-  const addTodo = () => {
-    dispatch(add(title))
-    setTitle("")
-  }
   
-  const deleteTodo = (id) => {
-    dispatch(remove(id))
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos])
+  
+  const onSubmit = (e) => {
+    e.preventDefault();
   }
+  const addTodo = () => {
+    dispatch(add({title, description}))
+    setTitle("");
+    setDescription("");
+    handleClose()
+  }
+  // MODAL
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const completed = (id) => {
-    dispatch(done(id))
-  }
-  const addDate = (date, id) => {
-    dispatch(addTime({date, id}))
-  }
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+  const styleButton = {
+    width: 200,
+    bgcolor: '#008e9f',
+    border: '2px solid #000',
+    boxShadow: 24,
+    color: "white",
+    m: 1
+  };
 
   return (
     <div className='todoApp'>
@@ -45,12 +63,45 @@ const Todo = () => {
         <h1>Todo App</h1>
       </div>
       <div className='form-div'>
-        <form onSubmit={onSubmit} action="" className='form'>
-          <input onChange={(e)=> {setTitle(e.target.value)}} value={title} className='todo-input' type="text" placeholder='New Task' />
-          <button type='submit' disabled={!title || !title.trim()} onClick={addTodo} className='todo-button'>Add</button>
-        </form>
+        <div>
+          <Button sx={styleButton} onClick={handleOpen} className='todo-button'>New Task</Button>
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 600,
+            }}
+          >
+            <Fade in={open}>
+              <Box sx={style}>
+                <Typography id="transition-modal-title" variant="h6" component="h2">
+                  {/* <Form /> */}
+                  <form onSubmit={onSubmit} action="" className='form'>
+                    <TextField
+                    onChange={(e)=> {setTitle(e.target.value)}} value={title} className='todo-input' type="text"
+                    id="standard-textarea"
+                    label="New Task"
+                    variant="standard"
+                    />
+                    <TextField
+                    onChange={(e)=>setDescription(e.target.value)} value={description} className='todo-input' type="text"
+                    id="standard-textarea"
+                    label="Description"
+                    variant="standard"
+                    />
+                    <Button type='submit' disabled={!title || !title.trim() || !description} onClick={()=>addTodo()} className='todo-button' variant="contained">Complete</Button>
+                  </form>
+                </Typography>
+              </Box>
+            </Fade>
+          </Modal>
+        </div>
       </div> 
-      {/* filter todo */}
+      {/* Filter todos */}
       <div className='display-todos'>
         <button onClick={()=>setSort('all')}>All</button>
         <button onClick={()=>setSort('completed')}>Completed</button>
@@ -62,14 +113,9 @@ const Todo = () => {
           ? todos.map((todo) => {
             return (
               (
-                <li key={todo.id} className={todo.completed ? "green-li" : "todo-li"}>
-                  <span>{todo.title}</span>
-                  <div className='icons'>
-                    <i className='delete' onClick={() => deleteTodo(todo.id)}><BsTrash /></i>
-                    <i className='done' onClick={()=>completed(todo.id)}><IoMdDoneAll /></i>
-                    <input onChange={(e)=> addDate(e.target.value, todo.id)} type="date" value={todo.date} />
-                  </div>
-                </li>
+              <li key={todo.id} className={todo.completed ? "green-li" : "todo-li"}>
+                <AccordionC todo={todo}/>
+              </li>
               )
             )
           }) : null}
@@ -79,11 +125,7 @@ const Todo = () => {
             return (
               todo.completed === true && (
                 <li key={todo.id} className={todo.completed ? "green-li" : "todo-li"}>
-                  <span>{todo.title}</span>
-                  <div className='icons'>
-                    <i className='delete' onClick={() => deleteTodo(todo.id)}><BsTrash /></i>
-                    <i className='done' onClick={()=> completed(todo.id)}><IoMdDoneAll /></i>
-                  </div>
+                <AccordionC todo={todo}/>
                 </li>
               )
             )
@@ -94,12 +136,7 @@ const Todo = () => {
             return (
               todo.completed === false && (
                 <li key={todo.id} className={todo.completed ? "green-li" : "todo-li"}>
-                  <span>{todo.title}</span>
-                  <div className='icons'>
-                    <i className='delete' onClick={() => deleteTodo(todo.id)}><BsTrash /></i>
-                    <i className='done' onClick={()=> completed(todo.id)}><IoMdDoneAll /></i>
-                    <input onChange={(e)=> addDate(e.target.value, todo.id)} type="date" value={todo.date} />
-                  </div>
+                  <AccordionC todo={todo}/>
                 </li>
               )
             )
@@ -111,13 +148,3 @@ const Todo = () => {
 }
 
 export default Todo
-
-// {todos.map((todo) => (
-//   <li key={todo.id} className={todo.completed ? "green-li" : "todo-li"}>
-//     <span>{todo.title}</span>
-//     <div className='icons'>
-//       <i className='delete' onClick={() => deleteTodo(todo.id)}><BsTrash /></i>
-//       <i className='done' onClick={()=>completed(todo.id)}><IoMdDoneAll /></i>
-//     </div>
-//   </li>
-// ))}

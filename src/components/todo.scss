@@ -15,7 +15,6 @@
     text-align: center;
     box-shadow: 0 0 40px 0 #00000045;
     transition: all .3s ease;
-    // overflow-y: scroll;
     .display-todos {
         display: flex;
         justify-content: center;
@@ -28,6 +27,12 @@
             padding: 10px 30px;
             border-radius: 10px;
             border: none;
+            &:hover {
+                background-color: #008f9f8f;
+            }
+            &:active{
+                background-color: #008f9f3c;
+            }
         }
     }
     h1 {
@@ -36,30 +41,24 @@
         font-weight: 600;
         padding-left: 0.4rem;
     }
-    .form {
-        display: grid;
-        grid-template-columns: 70% 20%;
-        margin-bottom: 30px;
+    .form-div {
         width: 100%;
-        grid-gap: 1%;
-        .todo-input {
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: .9rem;
-            padding: 0 1rem;
-            border: none;
-            &:focus {
-                outline: none;
+        display: flex;
+        justify-content: center;
+        .form {
+            margin-bottom: 15px;
+            width: 100%;
+            grid-gap: 1%;
+            .todo-input {
+                border-radius: 10px;
+                font-family: inherit;
+                padding: 10px 20px;
+                font-size: .9rem;
+                border: none;
+                &:focus {
+                    outline: none;
+                }
             }
-        }
-        .todo-button {
-            cursor: pointer;
-            font-weight: 500;
-            padding: 14px 30px;
-            background-color: #ad5389;
-            color: #ffff;
-            border-radius: 10px;
-            width: 15rem;
         }
     }
     .todo-ul {
@@ -70,21 +69,15 @@
         overflow-y: auto;
         max-height: 400px;
         padding: 0 50px;
-        margin-top: 2rem;
-        // .bg-green {
-        //     background-color: green;
-        // }
+        margin-top: 1rem;
         .green-li {
-            background-color: rgb(5, 243, 5);
             color: white;
             text-transform: capitalize;
-            padding: 13px 30px;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
             .icons {
                 display: flex;
-                gap: 1rem;
                 i {
                     color: rgba(0, 0, 0, 0.785);
                     &:hover {
@@ -96,24 +89,40 @@
                     transition: 0s;
                 }
             }
+            .MuiPaper-root {
+                background-color: rgb(52, 223, 43);
+                transition: 0.4s;
+                width: 100%;
+                .MuiTypography-root {
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-between;
+                }
+            }
         }
         .todo-li {
             color: white;
-            // text-align: left;
-            background-color: #008e9f;
             text-transform: capitalize;
-            padding: 13px 30px;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
             .icons {
                 display: flex;
-                gap: 1rem;
+                gap: 0.5rem;
                 i {
-                    color: rgba(0, 0, 0, 0.785);
+                    color: rgb(6, 0, 0);
                     &:hover {
                         cursor: pointer;
                     }
+                }
+            }
+            .MuiPaper-root {
+                background-color: #008e9f;
+                width: 100%;
+                .MuiTypography-root {
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-between;
                 }
             }
         }

@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 } from 'uuid'
 
-const initialState = [
+const getLocalStorage = () => {
+    let todos = localStorage.getItem("todos")
+    if(todos) {
+        return todos = JSON.parse(localStorage.getItem("todos"))
+    } else {
+        return []
+    }
+}
 
-]
+const initialState = getLocalStorage()
 
 const todoSlice = createSlice({
     name: "todos",
@@ -12,8 +19,8 @@ const todoSlice = createSlice({
         add: (state, action) => {
             const newTodo = {
                 id: v4(), 
-                title: action.payload,
-                // date: new Date(), 
+                title: action.payload.title,
+                description: action.payload.description,
                 completed: false
             }
             state.push(newTodo)
@@ -22,11 +29,11 @@ const todoSlice = createSlice({
             return state.filter((todo) => todo.id !== action.payload)
         },
         done: (state, action) => {
-            state.map((todo)=> todo.id == action.payload ? todo.completed = true : false)
+            state.map((todo)=> todo.id === action.payload ? todo.completed = true : false)
         },
-        addTime: (state, action) => {
-            state.map((todo)=> todo.id == action.payload.id ? todo.date = action.payload.date : null)
-        }
+        // addTime: (state, action) => {
+        //     state.map((todo)=> todo.id == action.payload.id ? todo.date = action.payload.date : null)
+        // }
     }
 });
 
